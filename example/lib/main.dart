@@ -13,8 +13,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  PusherClient pusher;
-  Channel channel;
+  PusherClient? pusher;
+  Channel? channel;
 
   @override
   void initState() {
@@ -38,22 +38,22 @@ class _MyAppState extends State<MyApp> {
       enableLogging: true,
     );
 
-    channel = pusher.subscribe("private-orders");
+    channel = pusher!.subscribe("private-orders");
 
-    pusher.onConnectionStateChange((state) {
-      log("previousState: ${state.previousState}, currentState: ${state.currentState}");
+    pusher!.onConnectionStateChange((state) {
+      log("previousState: ${state!.previousState}, currentState: ${state.currentState}");
     });
 
-    pusher.onConnectionError((error) {
-      log("error: ${error.message}");
+    pusher!.onConnectionError((error) {
+      log("error: ${error!.message}");
     });
 
-    channel.bind('status-update', (event) {
-      log(event.data);
+    channel!.bind('status-update', (event) {
+      log(event!.data.toString());
     });
 
-    channel.bind('order-filled', (event) {
-      log("Order Filled Event" + event.data.toString());
+    channel!.bind('order-filled', (event) {
+      log("Order Filled Event" + event!.data.toString());
     });
   }
 
@@ -72,33 +72,33 @@ class _MyAppState extends State<MyApp> {
             ElevatedButton(
               child: Text('Unsubscribe Private Orders'),
               onPressed: () {
-                pusher.unsubscribe('private-orders');
+                pusher!.unsubscribe('private-orders');
               },
             ),
             ElevatedButton(
               child: Text('Unbind Status Update'),
               onPressed: () {
-                channel.unbind('status-update');
+                channel!.unbind('status-update');
               },
             ),
             ElevatedButton(
               child: Text('Unbind Order Filled'),
               onPressed: () {
-                channel.unbind('order-filled');
+                channel!.unbind('order-filled');
               },
             ),
             ElevatedButton(
               child: Text('Bind Status Update'),
               onPressed: () {
-                channel.bind('status-update', (PusherEvent event) {
-                  log("Status Update Event" + event.data.toString());
-                });
+                // channel!.bind('status-update', (PusherEvent event) {
+                //   log("Status Update Event" + event.data.toString());
+                // });
               },
             ),
             ElevatedButton(
               child: Text('Trigger Client Typing'),
               onPressed: () {
-                channel.trigger('client-istyping', {'name': 'Bob'});
+                channel!.trigger('client-istyping', {'name': 'Bob'});
               },
             ),
           ],
