@@ -28,20 +28,28 @@ android {
     namespace "com.github.chinloyal.pusher_client"
     compileSdkVersion 35
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
+    
     defaultConfig {
         minSdkVersion 22
     }
+
     lintOptions {
         disable 'InvalidPackage'
     }
-
-    dependencies {
-        implementation "com.pusher:pusher-java-client:2.2.5"
-    }
 }
+
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
